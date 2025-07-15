@@ -5,6 +5,7 @@ import { PORT } from "./config/env";
 import { errorMiddleware } from "./middlewares/error.middleware";
 import { AuthRouter } from "./modules/auth/auth.router";
 import { SampleRouter } from "./modules/sample/sample.router";
+import { BlogRouter } from "./modules/blog/blog.router";
 
 export class App {
   app: Express;
@@ -26,11 +27,12 @@ export class App {
   //dua method akan dijalankan ketika class dipanggil
   private routes() {
     const sampleRouter = new SampleRouter();
-
     const authRouter = new AuthRouter();
+    const blogRouter = new BlogRouter();
 
     this.app.use("/samples", sampleRouter.getRouter());
     this.app.use("/auth", authRouter.getRouter());
+    this.app.use("/blogs", blogRouter.getRouter());
   }
 
   private handleError() {
