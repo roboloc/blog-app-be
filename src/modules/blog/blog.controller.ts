@@ -22,6 +22,17 @@ export class BlogController {
     }
   };
 
+  getBlogBySlug = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      // pada const quey melakukan validasi yang ada pada dto blog dan dto pagination yang melakukan validasi kembali pada sort order dll
+      const slug = req.params.slug;
+      const result = await this.blogService.getBlogBySlug(slug);
+      res.status(200).send(result);
+    } catch (error) {
+      next(error);
+    }
+  };
+
   createBlog = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const files = req.files as { [fieldname: string]: Express.Multer.File[] };
