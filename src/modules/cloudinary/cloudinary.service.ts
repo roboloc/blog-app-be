@@ -1,4 +1,8 @@
-import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
+import {
+  v2 as cloudinary,
+  DeleteApiResponse,
+  UploadApiResponse,
+} from "cloudinary";
 import {
   CLOUDINARY_API_KEY,
   CLOUDINARY_API_SECRET,
@@ -40,5 +44,16 @@ export class CloudinaryService {
     });
   };
 
-  remove = () => {};
+  private extractPublicIdFromUrl = (url: string) => {
+    const urlParts = url.split("/");
+    const publicIdWithExtension = urlParts[urlParts.length - 1];
+    const publicId = publicIdWithExtension.split(".")[0];
+    return publicId;
+  };
+
+  remove = async (secureUrl: string) => {
+    // public id dapat dilihat pada link yang bagian v173772 pada link
+    const publicId = this.extractPublicIdFromUrl(secureUrl);
+    return await cloudinary.uploader.destroy(publicId);
+  };
 }
